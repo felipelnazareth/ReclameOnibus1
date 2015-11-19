@@ -39,16 +39,4 @@ public class BancoControllerUsuario {
         }
     }
 
-    public Cursor carregaDados(){
-        Cursor cursor;
-        String[] campos = {"email","senha"};
-        db = banco.getReadableDatabase();
-        cursor = db.query("bd_usuarios", campos, null, null, null, null, null);
-
-        if(cursor!=null){
-            cursor.moveToFirst();
-        }
-        db.close();
-        return cursor;
-    }
 }

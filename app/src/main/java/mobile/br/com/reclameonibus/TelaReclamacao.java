@@ -39,6 +39,9 @@ public class TelaReclamacao extends Activity implements OnClickListener {
     private Spinner spReclamacao;
     private Button btFoto;
 
+//    private ReclamacaoFormulario helper;
+
+
     //Autocomplete para as linhas de onibus
     public void initLinhas() {
         ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.linhas, android.R.layout.simple_dropdown_item_1line);
@@ -143,6 +146,8 @@ public class TelaReclamacao extends Activity implements OnClickListener {
         setContentView(R.layout.activity_tela_reclamacao);
         initLinhas();
         listReclamacoes();
+
+//        helper = new ReclamacaoFormulario(this);
 
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -251,6 +256,13 @@ public class TelaReclamacao extends Activity implements OnClickListener {
 
         if (v.getId() == R.id.btReclamacao) {
 
+//            Reclamacao reclamacao = helper.buscaParaInserir();
+//            ReclamacoesDB rec = new ReclamacoesDB(TelaReclamacao.this);
+//            rec.insereReclamacoes(reclamacao);
+//            rec.close();
+
+
+            //INSERCAO NO BANCO - METODO ANTIGO (INSERINDO SEM INTERVENCAO DE NENHUM OBJETO)
             BancoControllerReclamacoes banco = new BancoControllerReclamacoes(getBaseContext());
 
             txtLinha = (AutoCompleteTextView) findViewById(R.id.txtLinha);
@@ -269,6 +281,8 @@ public class TelaReclamacao extends Activity implements OnClickListener {
             String btFotoString ="";
             String resultado;
 
+
+
             resultado = banco.insereDado(txtLinhaString, txtOrdemString, displayTimeString, displayDateString, tLocalString, spReclamacaoString, btFotoString);
             Toast.makeText(getApplicationContext(), resultado, Toast.LENGTH_LONG).show();
 
@@ -284,6 +298,8 @@ public class TelaReclamacao extends Activity implements OnClickListener {
             });
             AlertDialog dialog = builder.create();
             dialog.show();
+
+
         }
 
     }

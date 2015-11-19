@@ -19,18 +19,6 @@ import android.widget.Toast;
 
 public class TelaLogin extends Activity implements OnClickListener{
 
-    private ListView lista;
-
-//    public void startTelaSemCadastro(){
-//        Button btLogin = (Button) findViewById(R.id.btLogin);
-//        btLogin.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(TelaLogin.this, TelaFiltroConsultaOuReclamacao.class));
-//            }
-//        });
-//    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,15 +31,17 @@ public class TelaLogin extends Activity implements OnClickListener{
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        BancoControllerUsuario crud = new BancoControllerUsuario(getBaseContext());
-        Cursor cursor = crud.carregaDados();
+//        ListView lista;
 
-        String[] nomeCampos = new String[] {"email","senha"};
-        int[] idViews = new int[] {R.id.tEmail, R.id.tSenha};
-
-        SimpleCursorAdapter adaptador = new SimpleCursorAdapter(getBaseContext(),R.layout.activity_tela_login, cursor, nomeCampos, idViews, 0);
-        lista = (ListView) findViewById(R.id.listView);
-        lista.setAdapter(adaptador);
+//        BancoControllerUsuario crud = new BancoControllerUsuario(getBaseContext());
+//        Cursor cursor = crud.carregaDados();
+//
+//        String[] nomeCampos = new String[] {"email","senha"};
+//        int[] idViews = new int[] {R.id.tEmail, R.id.tSenha};
+//
+//        SimpleCursorAdapter adaptador = new SimpleCursorAdapter(getBaseContext(),R.layout.activity_tela_login, cursor, nomeCampos, idViews, 0);
+//        lista = (ListView) findViewById(R.id.listView);
+//        lista.setAdapter(adaptador);
 
     }
 
@@ -80,11 +70,11 @@ public class TelaLogin extends Activity implements OnClickListener{
         String senha = tSenha.getText().toString();
 
 
-        if(email.contains((CharSequence) lista) && senha.contains((CharSequence) lista)){
+        if(email.equals("exemplo")&& senha.equals("123")){
             Intent it = new Intent(this, TelaFiltroConsultaOuReclamacao.class);
             startActivity(it);
         } else {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this); //mensagem de erro na tela
             builder.setTitle("Erro");
             builder.setMessage("Login e/ou senha inválido");
             builder.setNeutralButton("Fechar", new DialogInterface.OnClickListener() {

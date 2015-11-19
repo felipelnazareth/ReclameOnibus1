@@ -15,24 +15,16 @@ public class TelaFiltroConsultaOuReclamacao extends Activity implements OnClickL
 
 
     public void startTelaConsulta(){
-        Button btConsultar = (Button) findViewById(R.id.btConsultar);
-        btConsultar.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
+
                 startActivity(new Intent(TelaFiltroConsultaOuReclamacao.this, TelaConsulta.class));
-            }
-        });
+
 
     }
 
     public void startTelaReclamacao(){
-        Button btReclamacao = (Button) findViewById(R.id.btReclamacao);
-        btReclamacao.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
+
                 startActivity(new Intent(TelaFiltroConsultaOuReclamacao.this, TelaReclamacao.class));
-            }
-        });
+
     }
 
     @Override

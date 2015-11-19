@@ -13,35 +13,19 @@ import android.view.View.OnClickListener;
 public class TelaFiltro extends Activity implements OnClickListener {
 
     public void startTelaCadastro(){
-        Button btCadastro = (Button) findViewById(R.id.btCadastro);
-        btCadastro.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 startActivity(new Intent(TelaFiltro.this, TelaCadastro.class));
-            }
-        });
 
-    }
+            }
 
     public void startTelaSemCadastro(){
-        Button btSemCadastro = (Button) findViewById(R.id.btSemCadastro);
-        btSemCadastro.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 startActivity(new Intent(TelaFiltro.this, TelaFiltroConsultaOuReclamacao.class));
             }
-        });
-    }
+
 
     public void startTelaLogin(){
-        Button btLoginFiltro = (Button) findViewById(R.id.btLoginFiltro);
-        btLoginFiltro.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 startActivity(new Intent(TelaFiltro.this, TelaLogin.class));
+
             }
-        });
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

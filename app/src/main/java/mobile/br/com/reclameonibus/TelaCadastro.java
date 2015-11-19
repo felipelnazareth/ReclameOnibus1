@@ -102,40 +102,42 @@ public class TelaCadastro extends Activity implements OnClickListener {
     }
 
     private boolean isEmptyFields(String user, String tel, String email, String pass) {
+        boolean ret = false;
         if (TextUtils.isEmpty(user)) {
             tnome.requestFocus(); //seta o foco para o campo user
-            tnome.setError("Campo Nome Completo obrigatório");
-            return true;
+            tnome.setError("Nome completo obrigatório");
+            ret = true;
         } if (TextUtils.isEmpty(tel)) {
             tTelefone.requestFocus(); //seta o foco para o campo password
-            tTelefone.setError("Campo Telefone obrigatório");
-            return true;
+            tTelefone.setError("Telefone obrigatório");
+            ret = true;
         } if (TextUtils.isEmpty(email)) {
-            tEmail.requestFocus();
-            tEmail.setError("Campo Email obrigatório");
-            return true;
+            tEmail.requestFocus(); //seta o foco para o campo password
+            tEmail.setError("Email obrigatório");
+            ret = true;
         } if (TextUtils.isEmpty(pass)) {
-            tSenha.requestFocus();
-            tSenha.setError("Campo Senha obrigatório");
-            return true;
+            tSenha.requestFocus(); //seta o foco para o campo password
+            tSenha.setError("Senha obrigatório");
+            ret = true;
         }
 
-        return false;
+        return ret;
     }
 
     private boolean checkCampos(String tel, String email) {
 
+        boolean ret = false;
         if (!(checkTelephone(tel))) {
             tTelefone.requestFocus();
             tTelefone.setError("Telefone inválido");
-            return false;
+            ret = true;
         }
         if (!(checkEmail(email))) {
             tEmail.requestFocus();
             tEmail.setError("Email inválido");
-            return false;
+            ret = true;
         }
-        return true;
+        return ret;
     }
 
 //    private boolean jaExisteEmail(String email){
@@ -192,7 +194,7 @@ public class TelaCadastro extends Activity implements OnClickListener {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+
         if (id == R.id.action_confirmar) {
             return true;
         }
