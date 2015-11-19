@@ -1,0 +1,59 @@
+<resources>
+    <string name="app_name">ReclameOnibus</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="action_confirmar">Confirmar</string>
+    <string name="title_activity_tela_apresentacao">Apresentacao</string>
+    <string name="title_activity_tela_filtro">Filtro</string>
+    <string name="title_activity_tela_cadastro">Cadastro</string>
+    <string name="title_activity_tela_reclamacao">Reclamação</string>
+
+
+    <string-array name="bairros">
+        <item>-- Selecione --</item>
+        <item>Abolição</item>
+        <item>Botafogo</item>
+        <item>Copacabana</item>
+        <item>Irajá</item>
+        <item>Leblon</item>
+        <item>Madureira</item>
+        <item>Osvaldo Cruz</item>
+    </string-array>
+
+    <string-array name="linhas">
+        <item>232 - Lins - Praça XV</item>
+        <item>235 - Lins - Central</item>
+        <item>245 - Grajaú - Pechincha</item>
+        <item>257 - Maracanã - Deodoro</item>
+        <item>310 - Rio Centro - Maracanã</item>
+        <item>318 - Barra da Tijuca - Rio Comprido</item>
+        <item>360 - Castelo - Recreio</item>
+        <item>398 - Praça Tirandentes - Bangu</item>
+        <item>455 - Vila Isabel - Central</item>
+        <item>460 - São Cristovão - Leblon</item>
+        <item>606 - Engenho de Dentro - Rodoviária</item>
+        <item>771 - Coelho Neto - Campo Grande</item>
+        <item>794 - Guadalupe - Marechal Hermes</item>
+    </string-array>
+
+    <string-array name="reclamacoes">
+        <item>Não parou no ponto</item>
+        <item>Escassez de ônibus</item>
+        <item>Comportamento indevido do motorista</item>
+        <item>Má conservação do ônibus</item>
+        <item>Excesso de velocidade</item>
+        <item>Intervalo acima do normal</item>
+        <item>Outros</item>
+    </string-array>
+    <string name="title_activity_tela_filtro_pesquisa_ou_reclamacao">
+        TelaFiltroPesquisaOuReclamacao
+    </string>
+    <string name="title_activity_tela_pesquisa">TelaPesquisa</string>
+    <string name="title_activity_tela_login">TelaLoginActivity</string>
+    <string name="title_activity_cadastro_usuarios">CadastroUsuarios</string>
+
+
+
+</resources>
