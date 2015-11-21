@@ -16,15 +16,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
 import java.util.regex.Pattern;
 
 public class TelaCadastro extends Activity implements OnClickListener {
-
-    private EditText tnome;
-    private EditText tTelefone;
-    private EditText tEmail;
-    private EditText tSenha;
-    private Spinner spBairro;
 
     public final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
             "^[\\w-]+(\\.[\\w-]+)*@([\\w-]+\\.)+[a-zA-Z]{2,7}$"
@@ -32,14 +27,20 @@ public class TelaCadastro extends Activity implements OnClickListener {
     public final Pattern TELEPHONE_PATTERN = Pattern.compile(
             "[0-9]{10,11}"
     );
+    private EditText tnome;
+    private EditText tTelefone;
+    private EditText tEmail;
+    private EditText tSenha;
+    private Spinner spBairro;
+    private ObjetoUsuarios helper;
 
     //****************************** FIM DAS VARIÁVEIS *************************************
-
 
     // MÉTODO PARA VALIDAR EMAIL
     private boolean checkEmail(String email) {
         return EMAIL_ADDRESS_PATTERN.matcher(email).matches();
     }
+
     // MÉTODO PARA VALIDAR TELEFONE
     private boolean checkTelephone(String tel) {
         return TELEPHONE_PATTERN.matcher(tel).matches();
@@ -107,17 +108,20 @@ public class TelaCadastro extends Activity implements OnClickListener {
             tnome.requestFocus(); //seta o foco para o campo user
             tnome.setError("Nome completo obrigatório");
             ret = true;
-        } if (TextUtils.isEmpty(tel)) {
+        }
+        if (TextUtils.isEmpty(tel)) {
             tTelefone.requestFocus(); //seta o foco para o campo password
             tTelefone.setError("Telefone obrigatório");
             ret = true;
-        } if (TextUtils.isEmpty(email)) {
+        }
+        if (TextUtils.isEmpty(email)) {
             tEmail.requestFocus(); //seta o foco para o campo password
             tEmail.setError("Email obrigatório");
             ret = true;
-        } if (TextUtils.isEmpty(pass)) {
+        }
+        if (TextUtils.isEmpty(pass)) {
             tSenha.requestFocus(); //seta o foco para o campo password
-            tSenha.setError("Senha obrigatório");
+            tSenha.setError("Senha obrigatória");
             ret = true;
         }
 
@@ -142,14 +146,13 @@ public class TelaCadastro extends Activity implements OnClickListener {
 
 //    private boolean jaExisteEmail(String email){
 //
-//        if(email.equals(new BancoControllerReclamacoes(getApplicationContext()))){
+//        if(email.equals(new DBReclamacoes(getApplicationContext()))){
 //            tEmail.requestFocus();
 //            tEmail.setError("Email já existente. Tente outro");
 //            return false;
 //        }
 //        return true;
 //    }
-
 
 
     //Limpa os ícones e as mensagens de erro dos campos desejados
@@ -160,12 +163,12 @@ public class TelaCadastro extends Activity implements OnClickListener {
     }
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_cadastro);
+
+        helper = new ObjetoUsuarios(this);
         listBairros();
         textWatcher();
 
@@ -220,32 +223,26 @@ public class TelaCadastro extends Activity implements OnClickListener {
     public void onClick(View v) {
 
         if (v.getId() == R.id.btLogin) {
-            if (validarCampos()) {
+//            if (validarCampos()) {
 
-                BancoControllerUsuario banco = new BancoControllerUsuario(getBaseContext());
                 tnome = (EditText) findViewById(R.id.tNome);
                 tTelefone = (EditText) findViewById(R.id.tTelefone);
                 tEmail = (EditText) findViewById(R.id.tEmail);
                 tSenha = (EditText) findViewById(R.id.tSenha);
                 spBairro = (Spinner) findViewById(R.id.spBairro);
-                String tnomeString = tnome.getText().toString();
-                String tTelefoneString = tTelefone.getText().toString();
-                String tEmailString = tEmail.getText().toString();
-                String tSenhaString = tSenha.getText().toString();
-                String spBairroString = spBairro.getSelectedItem().toString();
 
                 String resultado;
+            GetSetUsuarios getSetUsuarios = helper.buscaParaInserir();
+            DBUsuario rec = new DBUsuario(TelaCadastro.this);
+            resultado = rec.insereUsuarios(getSetUsuarios);
+            Toast.makeText(getBaseContext(), resultado, Toast.LENGTH_SHORT).show();
 
-                resultado = banco.insereDado(tnomeString, tTelefoneString, tEmailString, tSenhaString, spBairroString);
-                Toast.makeText(getApplicationContext(), resultado, Toast.LENGTH_LONG).show();
-//                String mensagem = tnome.getText().toString();
-                Intent it = new Intent(TelaCadastro.this, TelaFiltroConsultaOuReclamacao.class);
+            startActivity(new Intent(TelaCadastro.this, TelaFiltroConsultaOuReclamacao.class));
 //                it.putExtra("nome", mensagem);
-                startActivity(it);
             }
 
         }
 
     }
-}
+//}
 

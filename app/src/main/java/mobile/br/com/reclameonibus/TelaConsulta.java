@@ -14,7 +14,7 @@ import java.util.List;
 public class TelaConsulta extends Activity implements OnClickListener {
 
     private ListView listaReclamacoes;
-    private List<Reclamacao> reclamacoes;
+    private List<GetSetReclamacoes> reclamacoes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,19 +25,19 @@ public class TelaConsulta extends Activity implements OnClickListener {
 
     }
 
-//    protected void onResume() {
-//        super.onResume();
-//        this.carregaLista();
-//    }
+    protected void onResume() {
+        super.onResume();
+        this.carregaLista();
+    }
 
-//    private void carregaLista() {
-//        ReclamacoesDB dao = new ReclamacoesDB(this);
-//        List<Reclamacao> reclamacoes = dao.getLista();
-//        dao.close();
-//
-//        ArrayAdapter<Reclamacao> adapter = new ArrayAdapter<Reclamacao>(this, android.R.layout.simple_list_item_1, reclamacoes);
-//        this.listaReclamacoes.setAdapter(adapter);
-//    }
+    private void carregaLista() {
+        DBReclamacoes dao = new DBReclamacoes(this);
+        List<GetSetReclamacoes> reclamacoes = dao.getLista();
+        dao.close();
+
+        ArrayAdapter<GetSetReclamacoes> adapter = new ArrayAdapter<GetSetReclamacoes>(this, android.R.layout.simple_list_item_1, reclamacoes);
+        this.listaReclamacoes.setAdapter(adapter);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

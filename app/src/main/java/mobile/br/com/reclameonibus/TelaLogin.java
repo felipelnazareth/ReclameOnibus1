@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,26 +13,37 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
-import android.widget.Toast;
 
-public class TelaLogin extends Activity implements OnClickListener{
+import java.util.List;
+
+public class TelaLogin extends Activity implements OnClickListener {
+
+    private ListView listaUsuarios;
+    private List<GetSetUsuarios> usuarios;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_login);
+        listaUsuarios = (ListView) findViewById(R.id.lista_usuarios);
 
-        Button btLogin = (Button) findViewById(R.id.btLogin);
+        Button btLogin = (Button) findViewById(R.id.btLoginCadastro);
         btLogin.setOnClickListener(this);
 
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    protected void onResume() {
+        super.onResume();
+
+    }
+
 
 //        ListView lista;
 
-//        BancoControllerUsuario crud = new BancoControllerUsuario(getBaseContext());
+//        DBUsuarios crud = new DBUsuarios(getBaseContext());
 //        Cursor cursor = crud.carregaDados();
 //
 //        String[] nomeCampos = new String[] {"email","senha"};
@@ -43,16 +53,15 @@ public class TelaLogin extends Activity implements OnClickListener{
 //        lista = (ListView) findViewById(R.id.listView);
 //        lista.setAdapter(adaptador);
 
-    }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_tela_login, menu);
         return true;
     }
 
-    public boolean onMenuItemSelected(int featureId, MenuItem item){
-        if(item.getItemId() == android.R.id.home){
+    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
         }
@@ -63,14 +72,13 @@ public class TelaLogin extends Activity implements OnClickListener{
     @Override
     public void onClick(View v) {
 
-        EditText tEmail = (EditText)findViewById(R.id.tEmailLogin);
-        EditText tSenha = (EditText)findViewById(R.id.tSenhaLogin);
+        EditText tEmail = (EditText) findViewById(R.id.tEmailLogin);
+        EditText tSenha = (EditText) findViewById(R.id.tSenhaLogin);
 
         String email = tEmail.getText().toString();
         String senha = tSenha.getText().toString();
 
-
-        if(email.equals("exemplo")&& senha.equals("123")){
+        if (email.equals("exemplo") && senha.equals("123")) {
             Intent it = new Intent(this, TelaFiltroConsultaOuReclamacao.class);
             startActivity(it);
         } else {

@@ -7,23 +7,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
 public class TelaFiltroConsultaOuReclamacao extends Activity implements OnClickListener {
 
 
-    public void startTelaConsulta(){
+    public void startTelaConsulta() {
 
-                startActivity(new Intent(TelaFiltroConsultaOuReclamacao.this, TelaConsulta.class));
+        startActivity(new Intent(TelaFiltroConsultaOuReclamacao.this, TelaConsulta.class));
 
 
     }
 
-    public void startTelaReclamacao(){
+    public void startTelaReclamacao() {
 
-                startActivity(new Intent(TelaFiltroConsultaOuReclamacao.this, TelaReclamacao.class));
+        startActivity(new Intent(TelaFiltroConsultaOuReclamacao.this, TelaReclamacoes.class));
 
     }
 

@@ -7,25 +7,24 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.view.View.OnClickListener;
 
 public class TelaFiltro extends Activity implements OnClickListener {
 
-    public void startTelaCadastro(){
-                startActivity(new Intent(TelaFiltro.this, TelaCadastro.class));
+    public void startTelaCadastro() {
+        startActivity(new Intent(TelaFiltro.this, TelaCadastro.class));
 
-            }
+    }
 
-    public void startTelaSemCadastro(){
-                startActivity(new Intent(TelaFiltro.this, TelaFiltroConsultaOuReclamacao.class));
-            }
+    public void startTelaSemCadastro() {
+        startActivity(new Intent(TelaFiltro.this, TelaFiltroConsultaOuReclamacao.class));
+    }
 
 
-    public void startTelaLogin(){
-                startActivity(new Intent(TelaFiltro.this, TelaLogin.class));
+    public void startTelaLogin() {
+        startActivity(new Intent(TelaFiltro.this, TelaLogin.class));
 
-            }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
