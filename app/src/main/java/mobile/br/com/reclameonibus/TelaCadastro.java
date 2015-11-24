@@ -17,7 +17,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.io.Serializable;
 import java.util.regex.Pattern;
 
 public class TelaCadastro extends Activity implements OnClickListener {
@@ -244,7 +243,7 @@ public class TelaCadastro extends Activity implements OnClickListener {
 
             Intent it = new Intent(TelaCadastro.this, TelaFiltroConsultaOuReclamacao.class);
             startActivity(it);
-            it.putExtra("nome", (Serializable) tnome);
+//            it.putExtra("nome", (Serializable) tnome);
             }
 
         }
