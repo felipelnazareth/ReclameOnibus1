@@ -53,6 +53,7 @@
     <string name="title_activity_tela_pesquisa">TelaPesquisa</string>
     <string name="title_activity_tela_login">TelaLoginActivity</string>
     <string name="title_activity_cadastro_usuarios">CadastroUsuarios</string>
+    <string name="title_activity_tela__final">Tela_Final</string>
 
 
 </resources>

@@ -32,12 +32,19 @@ public class TelaLogin extends Activity implements OnClickListener {
         btLogin.setOnClickListener(this);
 
         ActionBar actionBar = getActionBar();
+        assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     protected void onResume() {
         super.onResume();
+        this.carregaLista();
+    }
 
+    private void carregaLista() {
+        DBUsuario dao = new DBUsuario(this);
+        List<GetSetUsuarios> usuarios = dao.validarUsuarios();
+        dao.close();
     }
 
 
@@ -60,6 +67,27 @@ public class TelaLogin extends Activity implements OnClickListener {
         return true;
     }
 
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        if (id == R.id.action_confirmar) {
+            return true;
+        }
+
+        if (id == R.id.action_refresh) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
@@ -77,6 +105,8 @@ public class TelaLogin extends Activity implements OnClickListener {
 
         String email = tEmail.getText().toString();
         String senha = tSenha.getText().toString();
+
+        DBUsuario db = new DBUsuario(TelaLogin.this);
 
         if (email.equals("exemplo") && senha.equals("123")) {
             Intent it = new Intent(this, TelaFiltroConsultaOuReclamacao.class);

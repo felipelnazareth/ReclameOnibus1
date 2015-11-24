@@ -12,14 +12,6 @@
     android:weightSum="1"
     tools:context="mobile.br.com.reclameonibus.TelaLogin">
 
-    <ListView
-        android:id="@+id/listView"
-        android:layout_width="wrap_content"
-        android:layout_height="27dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:visibility="invisible" />
-
     <EditText
         android:id="@+id/tEmailLogin"
         android:layout_width="match_parent"

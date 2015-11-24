@@ -7,7 +7,10 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +18,7 @@ import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -100,9 +104,9 @@ public class TelaReclamacoes extends Activity implements OnClickListener {
     private void updateDisplayHora() {
         pDisplayTime.setText(
                 new StringBuilder()
-                        // Month is 0 based so add 1
+
                         .append(hora).append(":")
-                        .append(minuto).append(""));
+                        .append(minuto).append(" "));
 
     }
 
@@ -116,7 +120,6 @@ public class TelaReclamacoes extends Activity implements OnClickListener {
         Toast.makeText(this, new StringBuilder().append("A hora escolhida foi: ").append(pDisplayTime.getText()), Toast.LENGTH_SHORT).show();
     }
     //************************************************
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -206,6 +209,28 @@ public class TelaReclamacoes extends Activity implements OnClickListener {
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        if (id == R.id.action_confirmar) {
+            return true;
+        }
+
+        if (id == R.id.action_refresh) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
@@ -215,24 +240,24 @@ public class TelaReclamacoes extends Activity implements OnClickListener {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public void onClick(View v) {
 
-        if (v.getId() == R.id.btReclamacao) {
+        CheckBox boxgps = (CheckBox) findViewById(R.id.box_Gps);
+
+        if (boxgps.isChecked()) {
+
+            LocationManager service = (LocationManager) getSystemService(LOCATION_SERVICE);
+// Verifica se o GPS está ativo
+            boolean enabled = service.isProviderEnabled(LocationManager.GPS_PROVIDER);
+// Caso não esteja ativo abre um novo diálogo com as configurações para
+// realizar se ativamento
+            if (!enabled) {
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+            }
+        }
+
+        if (v.getId() == R.id.btReclamacao || v.getId() == R.id.action_confirmar) {
 
             txtLinha = (AutoCompleteTextView) findViewById(R.id.txtLinha);
             txtOrdem = (EditText) findViewById(R.id.txtOrdem);
@@ -266,6 +291,7 @@ public class TelaReclamacoes extends Activity implements OnClickListener {
                     DBReclamacoes rec = new DBReclamacoes(TelaReclamacoes.this);
                     resultado = rec.insereReclamacoes(getSetReclamacoes);
                     Toast.makeText(getBaseContext(), resultado, Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(TelaReclamacoes.this, TelaFinal.class));
 
                 }
             });

@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.regex.Pattern;
 
 public class TelaCadastro extends Activity implements OnClickListener {
@@ -174,6 +175,7 @@ public class TelaCadastro extends Activity implements OnClickListener {
 
         //ACTION BAR DA TELA
         ActionBar actionBar = getActionBar();
+        assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         Button btLogin = (Button) findViewById(R.id.btLogin);
@@ -197,6 +199,9 @@ public class TelaCadastro extends Activity implements OnClickListener {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        if (id == R.id.action_settings) {
+            return true;
+        }
 
         if (id == R.id.action_confirmar) {
             return true;
@@ -237,8 +242,9 @@ public class TelaCadastro extends Activity implements OnClickListener {
             resultado = rec.insereUsuarios(getSetUsuarios);
             Toast.makeText(getBaseContext(), resultado, Toast.LENGTH_SHORT).show();
 
-            startActivity(new Intent(TelaCadastro.this, TelaFiltroConsultaOuReclamacao.class));
-//                it.putExtra("nome", mensagem);
+            Intent it = new Intent(TelaCadastro.this, TelaFiltroConsultaOuReclamacao.class);
+            startActivity(it);
+            it.putExtra("nome", (Serializable) tnome);
             }
 
         }
