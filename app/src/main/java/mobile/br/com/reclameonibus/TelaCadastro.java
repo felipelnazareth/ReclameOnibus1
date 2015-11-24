@@ -98,11 +98,11 @@ public class TelaCadastro extends Activity implements OnClickListener {
         String tel = tTelefone.getText().toString().trim();
         String email = tEmail.getText().toString().trim();
         String pass = tSenha.getText().toString().trim();
-        return (!isEmptyFields(user, tel, email, pass)
-                && checkCampos(tel, email));
+        return (!ehVazio(user, tel, email, pass)
+                && checkCampos(tel, email) && !emailExistente(email));
     }
 
-    private boolean isEmptyFields(String user, String tel, String email, String pass) {
+    private boolean ehVazio(String user, String tel, String email, String pass) {
         boolean ret = false;
         if (TextUtils.isEmpty(user)) {
             tnome.requestFocus(); //seta o foco para o campo user
@@ -144,15 +144,16 @@ public class TelaCadastro extends Activity implements OnClickListener {
         return ret;
     }
 
-//    private boolean jaExisteEmail(String email){
-//
-//        if(email.equals(new DBReclamacoes(getApplicationContext()))){
-//            tEmail.requestFocus();
-//            tEmail.setError("Email já existente. Tente outro");
-//            return false;
-//        }
-//        return true;
-//    }
+    private boolean emailExistente (String email){
+        DBUsuario db = new DBUsuario(TelaCadastro.this);
+        if (db.existsEmail(email)){
+            tEmail.requestFocus();
+            tEmail.setError("Email já cadastrado. Escolha outro");
+            return false;
+
+        }
+        return true;
+    }
 
 
     //Limpa os ícones e as mensagens de erro dos campos desejados
@@ -180,8 +181,6 @@ public class TelaCadastro extends Activity implements OnClickListener {
         Button btLogin = (Button) findViewById(R.id.btLogin);
         btLogin.setOnClickListener(this);
     }
-
-    ;
 
 
     @Override
@@ -225,7 +224,7 @@ public class TelaCadastro extends Activity implements OnClickListener {
     public void onClick(View v) {
 
         if (v.getId() == R.id.btLogin) {
-//            if (validarCampos()) {
+            if (validarCampos()) {
 
                 tnome = (EditText) findViewById(R.id.tNome);
                 tTelefone = (EditText) findViewById(R.id.tTelefone);
@@ -233,7 +232,7 @@ public class TelaCadastro extends Activity implements OnClickListener {
                 tSenha = (EditText) findViewById(R.id.tSenha);
                 spBairro = (Spinner) findViewById(R.id.spBairro);
 
-                String resultado;
+            String resultado;
             GetSetUsuarios getSetUsuarios = helper.buscaParaInserir();
             DBUsuario rec = new DBUsuario(TelaCadastro.this);
             resultado = rec.insereUsuarios(getSetUsuarios);
@@ -247,5 +246,5 @@ public class TelaCadastro extends Activity implements OnClickListener {
         }
 
     }
-//}
+}
 

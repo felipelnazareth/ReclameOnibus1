@@ -69,6 +69,18 @@ public class DBUsuario extends SQLiteOpenHelper {
 
     }
 
+    public boolean existsEmail(String email){
+        SQLiteDatabase db = getWritableDatabase();
+        String[] AND = new String[]{email};
+        Cursor c = db.query("table_usuarios", null, "email =?", AND, null, null, null);
+
+        if (c.getCount() > 0){
+            return true;
+        }
+
+        return false;
+    }
+
 
 }
 
