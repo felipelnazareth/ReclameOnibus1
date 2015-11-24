@@ -7,9 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by Matheus on 01/11/2015.
  */
@@ -60,26 +57,16 @@ public class DBUsuario extends SQLiteOpenHelper {
 
     }
 
-    public List<GetSetUsuarios> validarUsuarios() {
+    public boolean validarUsuarios(String email, String senha) {
 
-        List<GetSetUsuarios> usuarios = new ArrayList<GetSetUsuarios>();
-        Cursor c = getReadableDatabase()
-                .rawQuery("SELECT * FROM " + "table_usuarios" + ";", null);
-        while (c.moveToNext()) {
-            GetSetUsuarios getSetUsuarios = new GetSetUsuarios();
-            getSetUsuarios.setEmail(c.getString(c.getColumnIndex("email")));
-            getSetUsuarios.setSenha(c.getString(c.getColumnIndex("senha")));
-            usuarios.add(getSetUsuarios);
-        }
-        c.close();
-        return usuarios;
+        SQLiteDatabase db = getWritableDatabase();
+        String[] AND = new String[]{email, senha};
+        Cursor c = db.query("table_usuarios", null, "email =? AND senha =?", AND, null, null, null);
 
-//        Cursor c =  getReadableDatabase().rawQuery("SELECT * FROM table_usuarios WHERE email = " +
-//                email +  "AND" + "=" + senha + "", null);
-//
-//        if (c.getCount()>0)
-//            return true;
-//        return false;
+        if (c.getCount() > 0)
+            return true;
+        return false;
+
     }
 
 

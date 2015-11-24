@@ -13,6 +13,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -38,27 +39,7 @@ public class TelaLogin extends Activity implements OnClickListener {
 
     protected void onResume() {
         super.onResume();
-        this.carregaLista();
     }
-
-    private void carregaLista() {
-        DBUsuario dao = new DBUsuario(this);
-        List<GetSetUsuarios> usuarios = dao.validarUsuarios();
-        dao.close();
-    }
-
-
-//        ListView lista;
-
-//        DBUsuarios crud = new DBUsuarios(getBaseContext());
-//        Cursor cursor = crud.carregaDados();
-//
-//        String[] nomeCampos = new String[] {"email","senha"};
-//        int[] idViews = new int[] {R.id.tEmail, R.id.tSenha};
-//
-//        SimpleCursorAdapter adaptador = new SimpleCursorAdapter(getBaseContext(),R.layout.activity_tela_login, cursor, nomeCampos, idViews, 0);
-//        lista = (ListView) findViewById(R.id.listView);
-//        lista.setAdapter(adaptador);
 
 
     @Override
@@ -68,9 +49,7 @@ public class TelaLogin extends Activity implements OnClickListener {
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+        //Opcoes no action bar
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
@@ -108,7 +87,8 @@ public class TelaLogin extends Activity implements OnClickListener {
 
         DBUsuario db = new DBUsuario(TelaLogin.this);
 
-        if (email.equals("exemplo") && senha.equals("123")) {
+        if (db.validarUsuarios(email, senha)) {
+            Toast.makeText(getBaseContext(), "Logado com sucesso", Toast.LENGTH_SHORT).show();
             Intent it = new Intent(this, TelaFiltroConsultaOuReclamacao.class);
             startActivity(it);
         } else {
