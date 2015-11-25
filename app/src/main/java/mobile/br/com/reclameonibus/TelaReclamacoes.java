@@ -106,7 +106,7 @@ public class TelaReclamacoes extends Activity implements OnClickListener {
                 new StringBuilder()
 
                         .append(hora).append(":")
-                        .append(minuto).append(" "));
+                        .append(String.format("%02d",minuto)).append(" "));
 
     }
 

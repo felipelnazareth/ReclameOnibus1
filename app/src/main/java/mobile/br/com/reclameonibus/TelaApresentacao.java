@@ -24,7 +24,7 @@ public class TelaApresentacao extends Activity implements Runnable {
                 intent.setClass(TelaApresentacao.this, TelaFiltro.class);
                 startActivity(intent);
             }
-        }, 6000);
+        }, 3000);
     }
 
     @Override
