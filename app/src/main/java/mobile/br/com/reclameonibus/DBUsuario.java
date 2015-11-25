@@ -26,6 +26,7 @@ public class DBUsuario extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         Log.d(TAG, "Criando tabela usuarios..");
         db.execSQL("create table if not exists table_usuarios (id INTEGER PRIMARY KEY AUTOINCREMENT, nome text, telefone numeric, email text unique, senha numeric, bairro text);");
+        db.close();
         Log.d(TAG, "Tabela criada com sucesso");
 
     }
@@ -63,8 +64,11 @@ public class DBUsuario extends SQLiteOpenHelper {
         String[] AND = new String[]{email, senha};
         Cursor c = db.query("table_usuarios", null, "email =? AND senha =?", AND, null, null, null);
 
-        if (c.getCount() > 0)
+        if (c.getCount() > 0) {
+            db.close();
             return true;
+        }
+        db.close();
         return false;
 
     }
@@ -75,9 +79,10 @@ public class DBUsuario extends SQLiteOpenHelper {
         Cursor c = db.query("table_usuarios", null, "email =?", AND, null, null, null);
 
         if (c.getCount() > 0){
+            db.close();
             return true;
         }
-
+        db.close();
         return false;
     }
 

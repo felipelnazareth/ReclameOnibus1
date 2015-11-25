@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class DBReclamacoes extends SQLiteOpenHelper {
 
-    public static final String NOME_BANCO = "reclamacoes.sqlite";
+    public static final String NOME_BANCO = "usuarios.sqlite";
     private static final String TAG = "sql";
     private static final int VERSAO_BANCO = 1;
 
@@ -30,6 +30,7 @@ public class DBReclamacoes extends SQLiteOpenHelper {
 
         Log.d(TAG, "Criando tabela usuarios..");
         db.execSQL("create table if not exists table_reclamacoes (id INTEGER PRIMARY KEY AUTOINCREMENT, linha text, numero_ordem numeric, hora text, data datetext, local text, tipo_reclamacao text, foto image);");
+        db.close();
         Log.d(TAG, "Tabela criada com sucesso");
 
     }
