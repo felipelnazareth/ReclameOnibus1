@@ -12,16 +12,44 @@
     android:weightSum="1"
     tools:context=".TelaFinal">
 
-
-    <EditText
-        android:id="@+id/txtMensagemEnviada"
+    <TextView
+        android:id="@+id/txtRecado"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="50dp"
-        android:layout_weight="0.82"
-        android:inputType="text" />
+        android:inputType=""
+        android:text="A seguinte mensagem foi registrada com sucesso:"
+        android:layout_weight="0.07"
+        android:textSize="25dp" />
 
+    <TextView
+        android:id="@+id/txtMensagemEnviada"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp"
+        android:minLines="3"
+        android:inputType="text"
+        android:textSize="20dp" />
+
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enviar por email"
+        android:id="@+id/radioEmail"
+        android:checked="false">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="Enviar por email"
+            android:id="@+id/rbEnviaEmail"
+            android:textSize="20dp"
+            android:layout_marginTop="10dp" />
+    </RadioGroup>
 
     <LinearLayout
         android:layout_width="wrap_content"

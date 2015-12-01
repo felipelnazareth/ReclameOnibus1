@@ -17,7 +17,7 @@ public class TelaFiltro extends Activity implements OnClickListener {
     }
 
     public void startTelaSemCadastro() {
-        startActivity(new Intent(TelaFiltro.this, TelaFiltroConsultaOuReclamacao.class));
+        startActivity(new Intent(TelaFiltro.this, TelaConsulta.class));
     }
 
 
@@ -31,8 +31,10 @@ public class TelaFiltro extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_filtro);
 
+        //ACTION BAR DA TELA
         ActionBar actionBar = getActionBar();
-        //actionBar.setDisplayShowTitleEnabled(false);
+        assert actionBar != null;
+        actionBar.setDisplayHomeAsUpEnabled(false);
 
     }
 

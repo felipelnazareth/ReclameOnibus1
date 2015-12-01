@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.TextView;
 
 public class TelaFiltroConsultaOuReclamacao extends Activity implements OnClickListener {
 
@@ -31,21 +32,13 @@ public class TelaFiltroConsultaOuReclamacao extends Activity implements OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_filtro_consulta_ou_reclamacao);
 
-
         ActionBar actionBar = getActionBar();
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        //Receber dados do intent
-//        Intent it = getIntent();
-//        String mensagem = it.getStringExtra("mensagem");
-//
-//        TextView textView = new TextView(this);
-//        textView.setTextSize(30);
-//        textView.setText(mensagem);
-//
-//        setContentView(textView);
-
+        TextView bemVindo = (TextView) findViewById(R.id.txtBemVindo);
+        String nome = getIntent().getStringExtra("nome");
+        bemVindo.setText("Bem vindo: " + nome);
 
     }
 

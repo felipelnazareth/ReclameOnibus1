@@ -8,9 +8,8 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.provider.Settings;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,7 +17,6 @@ import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -78,6 +76,13 @@ public class TelaReclamacoes extends Activity implements OnClickListener {
                 }
             };
 
+    public void startCancelar() {
+
+        Intent cancelar = new Intent(this, TelaReclamacoes.class);
+        cancelar.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(cancelar);
+    }
+
     //Autocomplete para as linhas de onibus
     public void initLinhas() {
         ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.linhas, android.R.layout.simple_dropdown_item_1line);
@@ -106,7 +111,7 @@ public class TelaReclamacoes extends Activity implements OnClickListener {
                 new StringBuilder()
 
                         .append(hora).append(":")
-                        .append(String.format("%02d",minuto)).append(" "));
+                        .append(String.format("%02d", minuto)).append(" "));
 
     }
 
@@ -131,12 +136,15 @@ public class TelaReclamacoes extends Activity implements OnClickListener {
         helper = new ObjetoReclamacoes(this);
 
         ActionBar actionBar = getActionBar();
+        assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         Button btReclamacao = (Button) findViewById(R.id.btReclamacao);
         btReclamacao.setOnClickListener(this);
 
-        /** Capture our View elements */
+        Button btCancelar = (Button) findViewById(R.id.btCancelar);
+        btCancelar.setOnClickListener(this);
+
         pDisplayDate = (TextView) findViewById(R.id.displayDate);
         pPickDate = (Button) findViewById(R.id.pickDate);
 
@@ -158,7 +166,7 @@ public class TelaReclamacoes extends Activity implements OnClickListener {
             }
         });
 
-        /** Get the current date */
+        /** Pega a data atual */
         final Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT-02:00"));
         pYear = cal.get(Calendar.YEAR);
         pMonth = cal.get(Calendar.MONTH);
@@ -167,13 +175,13 @@ public class TelaReclamacoes extends Activity implements OnClickListener {
         hora = cal.get(Calendar.HOUR_OF_DAY);
         minuto = cal.get(Calendar.MINUTE);
 
-        /** Display the current date in the TextView */
+        /** Coloca no display a hora alterada */
         updateDisplayData();
         updateDisplayHora();
     }
 
     /**
-     * Create a new dialog for date picker
+     * Novo dialog para DatePicker
      */
     @Override
     protected Dialog onCreateDialog(int id) {
@@ -196,11 +204,26 @@ public class TelaReclamacoes extends Activity implements OnClickListener {
     public void listReclamacoes() {
         Spinner spReclamacao = (Spinner) findViewById(R.id.spReclamacao);
         ArrayAdapter adapter2 = ArrayAdapter.createFromResource(this, R.array.reclamacoes,
-                android.R.layout.simple_spinner_item);
+                android.R.layout.simple_spinner_dropdown_item);
         spReclamacao.setAdapter(adapter2);
         // **********************************
     }
 
+    private boolean ehVazio(String linha, String local) {
+        boolean ret = false;
+        if (TextUtils.isEmpty(linha)) {
+            txtLinha.requestFocus(); //seta o foco para o campo user
+            txtLinha.setError("Digite a linha do ônibus");
+            ret = true;
+        }
+        if (TextUtils.isEmpty(local)) {
+            tLocal.requestFocus(); //seta o foco para o campo password
+            tLocal.setError("Ative o GPS ou escreva o local");
+            ret = true;
+        }
+
+        return ret;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -242,73 +265,69 @@ public class TelaReclamacoes extends Activity implements OnClickListener {
     @Override
     public void onClick(View v) {
 
-        CheckBox boxgps = (CheckBox) findViewById(R.id.box_Gps);
+        txtLinha = (AutoCompleteTextView) findViewById(R.id.txtLinha);
+        txtOrdem = (EditText) findViewById(R.id.txtOrdem);
+        displayTime = (TextView) findViewById(R.id.displayTime);
+        displayDate = (TextView) findViewById(R.id.displayDate);
+        tLocal = (EditText) findViewById(R.id.tLocal);
+        spReclamacao = (Spinner) findViewById(R.id.spReclamacao);
+        btFoto = (Button) findViewById(R.id.btFoto);
 
-        if (boxgps.isChecked()) {
+        final String txtLinhaString = txtLinha.getText().toString();
+        final String txtOrdemString = txtOrdem.getText().toString();
+        final String displayTimeString = displayTime.getText().toString();
+        final String displayDateString = displayDate.getText().toString();
+        final String tLocalString = tLocal.getText().toString();
+        final String spReclamacaoString = spReclamacao.getSelectedItem().toString();
+        String btFotoString = "";
 
-            LocationManager service = (LocationManager) getSystemService(LOCATION_SERVICE);
-// Verifica se o GPS está ativo
-            boolean enabled = service.isProviderEnabled(LocationManager.GPS_PROVIDER);
-// Caso não esteja ativo abre um novo diálogo com as configurações para
-// realizar se ativamento
-            if (!enabled) {
-                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                startActivity(intent);
+        if (v.getId() == R.id.btReclamacao) {
+            if (!ehVazio(txtLinhaString, tLocalString)) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Mensagem");
+                builder.setMessage("O ônibus " + txtLinhaString + " da linha " + txtOrdemString + " " +
+                        spReclamacaoString.toUpperCase() + " as " + displayTimeString + " do dia " + displayDateString + " em " + tLocalString);
+
+                builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        String resultado;
+                        GetSetReclamacoes getSetReclamacoes = helper.buscaParaInserir();
+                        DBReclamacoes rec = new DBReclamacoes(TelaReclamacoes.this);
+                        resultado = rec.insereReclamacoes(getSetReclamacoes);
+                        Toast.makeText(getBaseContext(), resultado, Toast.LENGTH_SHORT).show();
+                        Intent it = new Intent(TelaReclamacoes.this, TelaFinal.class);
+                        it.putExtra("linha", txtLinhaString);
+                        it.putExtra("numero_ordem", txtOrdemString);
+                        it.putExtra("hora", displayTimeString);
+                        it.putExtra("data", displayDateString);
+                        it.putExtra("local", tLocalString);
+                        it.putExtra("tipo_reclamacao", spReclamacaoString);
+
+                        startActivity(it);
+                    }
+                });
+
+                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getBaseContext(), "Reclamação cancelada", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+
             }
+
         }
-
-        if (v.getId() == R.id.btReclamacao || v.getId() == R.id.action_confirmar) {
-
-            txtLinha = (AutoCompleteTextView) findViewById(R.id.txtLinha);
-            txtOrdem = (EditText) findViewById(R.id.txtOrdem);
-            displayTime = (TextView) findViewById(R.id.displayTime);
-            displayDate = (TextView) findViewById(R.id.displayDate);
-            tLocal = (EditText) findViewById(R.id.tLocal);
-            spReclamacao = (Spinner) findViewById(R.id.spReclamacao);
-            btFoto = (Button) findViewById(R.id.btFoto);
-
-            String txtLinhaString = txtLinha.getText().toString();
-            String txtOrdemString = txtOrdem.getText().toString();
-            String displayTimeString = displayTime.getText().toString();
-            String displayDateString = displayDate.getText().toString();
-            String tLocalString = tLocal.getText().toString();
-            String spReclamacaoString = spReclamacao.getSelectedItem().toString();
-            String btFotoString = "";
-
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Mensagem");
-            builder.setMessage("O ônibus " + txtLinhaString + " da linha " + txtOrdemString + " " +
-                    spReclamacaoString + " as " + displayTimeString + " do dia " + displayDateString + " em " + tLocalString);
-
-            builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                    String resultado;
-                    GetSetReclamacoes getSetReclamacoes = helper.buscaParaInserir();
-                    DBReclamacoes rec = new DBReclamacoes(TelaReclamacoes.this);
-                    resultado = rec.insereReclamacoes(getSetReclamacoes);
-                    Toast.makeText(getBaseContext(), resultado, Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(TelaReclamacoes.this, TelaFinal.class));
-
-                }
-            });
-
-            builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(getBaseContext(), "Reclamação cancelada", Toast.LENGTH_SHORT).show();
-                }
-            });
-            AlertDialog dialog = builder.create();
-            dialog.show();
-
-
+        if (v.getId() == R.id.btCancelar) {
+            startCancelar();
         }
 
     }
-
 }

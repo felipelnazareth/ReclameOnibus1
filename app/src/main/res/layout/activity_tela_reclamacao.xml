@@ -136,11 +136,11 @@
             android:id="@+id/box_Gps"
             android:layout_width="152dp"
             android:layout_height="25dp"
+            android:checked="false"
             android:enabled="true"
             android:text="Ativar GPS"
             android:textSize="12dp"
-            android:textStyle="bold"
-            android:checked="false" />
+            android:textStyle="bold" />
 
     </LinearLayout>
 
@@ -185,7 +185,7 @@
             android:id="@+id/btReclamacao"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="150dp"
-            android:layout_height="37dp"
+            android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:background="@drawable/screen_border"
             android:enabled="true"
@@ -202,14 +202,20 @@
             android:id="@+id/btCancelar"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="150dp"
-            android:layout_height="37dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="20dp"
             android:background="@drawable/screen_border"
             android:elegantTextHeight="true"
             android:text="Cancelar"
             android:textColor="@android:color/white"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_marginLeft="20dp"
+            android:enabled="true"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:longClickable="false"
+            android:nestedScrollingEnabled="false"
+            android:singleLine="false" />
 
     </LinearLayout>
 

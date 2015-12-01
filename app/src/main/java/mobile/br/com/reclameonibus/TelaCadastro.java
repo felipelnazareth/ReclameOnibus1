@@ -30,7 +30,9 @@ public class TelaCadastro extends Activity implements OnClickListener {
     private EditText tnome;
     private EditText tTelefone;
     private EditText tEmail;
+    private EditText tConfirmaEmail;
     private EditText tSenha;
+    private EditText tConfirmaSenha;
     private Spinner spBairro;
     private ObjetoUsuarios helper;
 
@@ -46,11 +48,12 @@ public class TelaCadastro extends Activity implements OnClickListener {
         return TELEPHONE_PATTERN.matcher(tel).matches();
     }
 
+
     // SPINNER COM LISTA DE BAIRROS
     public void listBairros() {
         Spinner spinner = (Spinner) findViewById(R.id.spBairro);
         ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.bairros,
-                android.R.layout.simple_spinner_item);
+                android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
     }
 
@@ -81,8 +84,12 @@ public class TelaCadastro extends Activity implements OnClickListener {
         tTelefone.addTextChangedListener(textWatcher);
         tEmail = (EditText) findViewById(R.id.tEmail);
         tEmail.addTextChangedListener(textWatcher);
+        tConfirmaEmail = (EditText) findViewById(R.id.tConfirmaEmail);
+        tConfirmaEmail.addTextChangedListener(textWatcher);
         tSenha = (EditText) findViewById(R.id.tSenha);
         tSenha.addTextChangedListener(textWatcher);
+        tConfirmaSenha = (EditText) findViewById(R.id.tConfirmaSenha);
+        tConfirmaSenha.addTextChangedListener(textWatcher);
 
     }
 
@@ -98,30 +105,44 @@ public class TelaCadastro extends Activity implements OnClickListener {
         String tel = tTelefone.getText().toString().trim();
         String email = tEmail.getText().toString().trim();
         String pass = tSenha.getText().toString().trim();
-        return (!ehVazio(user, tel, email, pass)
-                && checkCampos(tel, email) && !emailExistente(email));
+        String confirmaEmail = tConfirmaEmail.getText().toString().trim();
+        String confirmaSenha = tConfirmaSenha.getText().toString().trim();
+
+        return (!ehVazio(user, tel, email, pass, confirmaEmail, confirmaSenha) && checkCampos(tel, email) &&
+                !emailExistente(email) && confirmaEmailSenha(confirmaEmail, email, confirmaSenha, pass));
+
     }
 
-    private boolean ehVazio(String user, String tel, String email, String pass) {
+    private boolean ehVazio(String user, String tel, String email, String pass, String confirmaEmail, String confirmaSenha) {
         boolean ret = false;
         if (TextUtils.isEmpty(user)) {
             tnome.requestFocus(); //seta o foco para o campo user
-            tnome.setError("Nome completo obrigatório");
+            tnome.setError("Digite seu nome");
             ret = true;
         }
         if (TextUtils.isEmpty(tel)) {
             tTelefone.requestFocus(); //seta o foco para o campo password
-            tTelefone.setError("Telefone obrigatório");
+            tTelefone.setError("Digite seu telefone");
             ret = true;
         }
         if (TextUtils.isEmpty(email)) {
             tEmail.requestFocus(); //seta o foco para o campo password
-            tEmail.setError("Email obrigatório");
+            tEmail.setError("Digite sua senha");
+            ret = true;
+        }
+        if (TextUtils.isEmpty(confirmaEmail)) {
+            tConfirmaEmail.requestFocus();
+            tConfirmaEmail.setError("Confirme seu email");
             ret = true;
         }
         if (TextUtils.isEmpty(pass)) {
             tSenha.requestFocus(); //seta o foco para o campo password
-            tSenha.setError("Senha obrigatória");
+            tSenha.setError("Digite sua senha");
+            ret = true;
+        }
+        if (TextUtils.isEmpty(confirmaSenha)) {
+            tConfirmaSenha.requestFocus();
+            tConfirmaSenha.setError("Confirme sua senha");
             ret = true;
         }
 
@@ -130,29 +151,48 @@ public class TelaCadastro extends Activity implements OnClickListener {
 
     private boolean checkCampos(String tel, String email) {
 
-        boolean ret = false;
-        if (!(checkTelephone(tel))) {
+        boolean ret = true;
+        if ((!checkTelephone(tel))) {
             tTelefone.requestFocus();
-            tTelefone.setError("Telefone inválido");
-            ret = true;
+            tTelefone.setError("Telefone inválido.");
+            ret = false;
         }
-        if (!(checkEmail(email))) {
+        if ((!checkEmail(email))) {
             tEmail.requestFocus();
-            tEmail.setError("Email inválido");
-            ret = true;
+            tEmail.setError("Email inválido.");
+            ret = false;
         }
         return ret;
     }
 
-    private boolean emailExistente (String email){
-        DBUsuario db = new DBUsuario(TelaCadastro.this);
-        if (db.existsEmail(email)){
-            tEmail.requestFocus();
-            tEmail.setError("Email já cadastrado. Escolha outro");
-            return false;
+    private boolean confirmaEmailSenha(String confirmaEmail, String email, String confirmaSenha, String senha) {
 
+        boolean ret = true;
+        if (!confirmaEmail.equals(email)) {
+            tConfirmaEmail.requestFocus();
+            tConfirmaEmail.setError("Emails diferentes");
+            ret = false;
         }
-        return true;
+        if (!confirmaSenha.equals(senha)) {
+            tConfirmaSenha.requestFocus();
+            tConfirmaSenha.setError("Senhas diferentes");
+            ret = false;
+        }
+
+        return ret;
+    }
+
+    private boolean emailExistente(String email) {
+
+        DBUsuario db = new DBUsuario(TelaCadastro.this);
+
+        boolean ret = false;
+        if (db.existsEmail(email)) {
+            tEmail.requestFocus();
+            tEmail.setError("Email já cadastrado. Escolha outro.");
+            ret = true;
+        }
+        return ret;
     }
 
 
@@ -226,12 +266,6 @@ public class TelaCadastro extends Activity implements OnClickListener {
         if (v.getId() == R.id.btLogin) {
             if (validarCampos()) {
 
-                tnome = (EditText) findViewById(R.id.tNome);
-                tTelefone = (EditText) findViewById(R.id.tTelefone);
-                tEmail = (EditText) findViewById(R.id.tEmail);
-                tSenha = (EditText) findViewById(R.id.tSenha);
-                spBairro = (Spinner) findViewById(R.id.spBairro);
-
             String resultado;
             GetSetUsuarios getSetUsuarios = helper.buscaParaInserir();
             DBUsuario rec = new DBUsuario(TelaCadastro.this);
@@ -239,8 +273,8 @@ public class TelaCadastro extends Activity implements OnClickListener {
             Toast.makeText(getBaseContext(), resultado, Toast.LENGTH_SHORT).show();
 
             Intent it = new Intent(TelaCadastro.this, TelaFiltroConsultaOuReclamacao.class);
+                it.putExtra("nome", tnome.getText().toString());
             startActivity(it);
-//            it.putExtra("nome", (Serializable) tnome);
             }
 
         }

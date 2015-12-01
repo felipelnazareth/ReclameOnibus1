@@ -36,7 +36,7 @@ public class TelaConsulta extends Activity implements OnClickListener {
 
     private void carregaLista() {
         DBReclamacoes dao = new DBReclamacoes(this);
-        List<GetSetReclamacoes> reclamacoes = dao.getLista();
+        reclamacoes = dao.getLista();
         dao.close();
 
         ArrayAdapter<GetSetReclamacoes> adapter = new ArrayAdapter<GetSetReclamacoes>(this, android.R.layout.simple_list_item_1, reclamacoes);

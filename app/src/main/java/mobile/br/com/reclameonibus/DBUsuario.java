@@ -12,10 +12,9 @@ import android.util.Log;
  */
 public class DBUsuario extends SQLiteOpenHelper {
 
-    public static final String NOME_BANCO = "usuarios.sqlite";
+    public static final String NOME_BANCO = "ReclameOnibusDB.sqlite";
     private static final String TAG = "sql";
     private static final int VERSAO_BANCO = 1;
-    private SQLiteOpenHelper openHelper;
 
     public DBUsuario(Context context) {
         super(context, NOME_BANCO, null, VERSAO_BANCO);
@@ -25,9 +24,9 @@ public class DBUsuario extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.d(TAG, "Criando tabela usuarios..");
-        db.execSQL("create table if not exists table_usuarios (id INTEGER PRIMARY KEY AUTOINCREMENT, nome text, telefone numeric, email text unique, senha numeric, bairro text);");
-        db.close();
-        Log.d(TAG, "Tabela criada com sucesso");
+        db.execSQL("create table if not exists table_usuarios (id INTEGER PRIMARY KEY AUTOINCREMENT, nome text, telefone numeric, email text, senha numeric, bairro text);");
+        db.execSQL("create table if not exists table_reclamacoes (id INTEGER PRIMARY KEY AUTOINCREMENT, linha text, numero_ordem numeric, hora text, data datetext, local text, tipo_reclamacao text, foto image);");
+        Log.d(TAG, "Tabelas criada com sucesso");
 
     }
 
@@ -39,6 +38,7 @@ public class DBUsuario extends SQLiteOpenHelper {
 
     public String insereUsuarios(GetSetUsuarios getSetUsuarios) {
 
+        SQLiteDatabase db = getWritableDatabase();
         long resultado;
         ContentValues values = new ContentValues();
 
@@ -51,11 +51,12 @@ public class DBUsuario extends SQLiteOpenHelper {
         resultado = getWritableDatabase().insert("table_usuarios", null, values);
 
         if (resultado == -1) {
+            db.close();
             return "Erro ao inserir registro";
         } else {
+            db.close();
             return "Registro inserido com sucesso";
         }
-
     }
 
     public boolean validarUsuarios(String email, String senha) {

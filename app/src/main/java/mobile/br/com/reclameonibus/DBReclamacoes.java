@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.List;
  */
 public class DBReclamacoes extends SQLiteOpenHelper {
 
-    public static final String NOME_BANCO = "usuarios.sqlite";
+    public static final String NOME_BANCO = "ReclameOnibusDB.sqlite";
     private static final String TAG = "sql";
     private static final int VERSAO_BANCO = 1;
 
@@ -28,10 +27,9 @@ public class DBReclamacoes extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        Log.d(TAG, "Criando tabela usuarios..");
-        db.execSQL("create table if not exists table_reclamacoes (id INTEGER PRIMARY KEY AUTOINCREMENT, linha text, numero_ordem numeric, hora text, data datetext, local text, tipo_reclamacao text, foto image);");
-        db.close();
-        Log.d(TAG, "Tabela criada com sucesso");
+//        Log.d(TAG, "Criando tabela usuarios..");
+//        db.execSQL("create table if not exists table_reclamacoes (id INTEGER PRIMARY KEY AUTOINCREMENT, linha text, numero_ordem numeric, hora text, data datetext, local text, tipo_reclamacao text, foto image);");
+//        Log.d(TAG, "Tabela criada com sucesso");
 
     }
 
@@ -42,6 +40,7 @@ public class DBReclamacoes extends SQLiteOpenHelper {
 
     public String insereReclamacoes(GetSetReclamacoes getSetReclamacoes) {
 
+        SQLiteDatabase db = getWritableDatabase();
         long resultado;
         ContentValues values = new ContentValues();
 
@@ -56,8 +55,10 @@ public class DBReclamacoes extends SQLiteOpenHelper {
         resultado = getWritableDatabase().insert("table_reclamacoes", null, values);
 
         if (resultado == -1) {
+            db.close();
             return "Erro ao inserir registro";
         } else {
+            db.close();
             return "Registro inserido com sucesso";
         }
 

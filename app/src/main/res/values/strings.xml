@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ReclameOnibus</string>
+    <string name="app_name">Reclame Ônibus</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -14,15 +14,25 @@
     <string-array name="bairros">
         <item>-- Selecione --</item>
         <item>Abolição</item>
+        <item>Bangu</item>
         <item>Botafogo</item>
+        <item>Campo Grande</item>
         <item>Copacabana</item>
+        <item>Deodoro</item>
         <item>Irajá</item>
         <item>Leblon</item>
         <item>Madureira</item>
+        <item>Maracanã</item>
+        <item>Méier</item>
         <item>Osvaldo Cruz</item>
+        <item>Realengo</item>
+        <item>Tijuca</item>
+        <item>Vicente de Carvalho</item>
     </string-array>
 
     <string-array name="linhas">
+        <item>121 - Centro - Cascadura</item>
+        <item>135 - Botafogo - Engenho de Dentro</item>
         <item>232 - Lins - Praça XV</item>
         <item>235 - Lins - Central</item>
         <item>245 - Grajaú - Pechincha</item>
@@ -33,9 +43,12 @@
         <item>398 - Praça Tirandentes - Bangu</item>
         <item>455 - Vila Isabel - Central</item>
         <item>460 - São Cristovão - Leblon</item>
+        <item>557 - Vila Isabel - Freguesia</item>
         <item>606 - Engenho de Dentro - Rodoviária</item>
         <item>771 - Coelho Neto - Campo Grande</item>
         <item>794 - Guadalupe - Marechal Hermes</item>
+        <item>853 - Bangu - Barra da Tijuca</item>
+        <item>906 - Penha - Copacabana</item>
     </string-array>
 
     <string-array name="reclamacoes">

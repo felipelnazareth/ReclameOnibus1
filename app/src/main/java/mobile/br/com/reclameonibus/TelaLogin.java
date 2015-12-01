@@ -68,7 +68,6 @@ public class TelaLogin extends Activity implements OnClickListener {
         return super.onMenuItemSelected(featureId, item);
     }
 
-
     @Override
     public void onClick(View v) {
 
